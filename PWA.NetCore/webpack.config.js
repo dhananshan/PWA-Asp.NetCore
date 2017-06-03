@@ -39,9 +39,9 @@ module.exports = (env) => {
             }),
 
             new workboxPlugin({
-                globDirectory: 'wwwroot',
-                staticFileGlobs: ['**/*.{html,js,css}'],
-                swDest: path.join('wwwroot', 'dist', 'sw.js'),
+                globDirectory: path.join(__dirname, 'wwwroot', 'dist'),
+                globPatterns: ['**/*.{js,css}'],
+                swDest: path.join('dist', 'sw.js'),
             })
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
