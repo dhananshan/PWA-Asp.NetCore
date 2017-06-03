@@ -1,4 +1,5 @@
-﻿const path = require('path');
+﻿
+const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
@@ -36,11 +37,12 @@ module.exports = (env) => {
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
             }),
+
             new workboxPlugin({
                 globDirectory: 'wwwroot',
                 staticFileGlobs: ['**/*.{html,js,css}'],
                 swDest: path.join('wwwroot', 'dist', 'sw.js'),
-            }),
+            })
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
         ])
