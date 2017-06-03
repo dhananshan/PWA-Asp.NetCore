@@ -2,7 +2,7 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
-
+const workboxPlugin = require('workbox-webpack-plugin');
 
 
 
@@ -18,7 +18,7 @@ module.exports = (env) => {
             ]
         },
         entry: {
-            app:['./Content/js/index.js'],
+            app:['./Content/js/app.js'],
             vendor: [
                 'jquery',
                 'bootstrap/dist/js/bootstrap',
@@ -35,7 +35,12 @@ module.exports = (env) => {
                 $: 'jquery',
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
-            })
+            }),
+            new workboxPlugin({
+                globDirectory: 'wwwroot',
+                staticFileGlobs: ['**/*.{html,js,css}'],
+                swDest: path.join('wwwroot', 'dist', 'sw.js'),
+            }),
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
         ])
