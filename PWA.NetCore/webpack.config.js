@@ -1,53 +1,67 @@
-﻿
-const path = require('path');
+﻿const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const merge = require('webpack-merge');
-const workboxPlugin = require('workbox-webpack-plugin');
-
 
 
 module.exports = (env) => {
     const extractCSS = new ExtractTextPlugin('vendor.css');
     const isDevBuild = !(env && env.prod);
 
-    const mainConfig = {
+
+    const vendorConfig = {
         module: {
             rules: [
                 { test: /\.(png|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
-                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) }
+                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) },
+                {
+                    test: require.resolve('jquery'),
+                    use: [{
+                        loader: 'expose-loader',
+                        options: 'jQuery'
+                    }, {
+                        loader: 'expose-loader',
+                        options: '$'
+                    }]
+                }
             ]
         },
+
         entry: {
-            app:['./Content/js/app.js'],
             vendor: [
                 'jquery',
                 'bootstrap/dist/js/bootstrap',
                 'bootstrap/dist/css/bootstrap.css'
             ]
         },
+
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist'),
-            filename: "[name].bundle.js"
+            filename: "[name].bundle.js",
         },
+
         plugins: [
             extractCSS,
             new webpack.ProvidePlugin({
-                $: 'jquery',
-                jQuery: 'jquery',
-                'window.jQuery': 'jquery'
+                $: "jquery",
+                jQuery: "jquery"
             }),
-
-            new workboxPlugin({
-                globDirectory: path.join(__dirname, 'wwwroot', 'dist'),
-                globPatterns: ['**/*.{js,css}'],
-                swDest: path.join('dist', 'sw.js'),
-            })
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
         ])
+    }
 
+    const appConfig = {
+
+        entry: {
+            app:['./Content/js/app.js'],
+        },
+        output: {
+            path: path.join(__dirname, 'wwwroot', 'dist'),
+            filename: "[name].bundle.js",
+            libraryTarget: 'var',
+            library: 'ui'
+        },
     };
 
-    return [mainConfig];
+    return [vendorConfig, appConfig];
 };
