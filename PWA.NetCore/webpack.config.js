@@ -1,6 +1,7 @@
 ﻿const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = (env) => {
@@ -45,6 +46,9 @@ module.exports = (env) => {
                 $: "jquery",
                 jQuery: "jquery"
             }),
+            new CopyWebpackPlugin([
+            { from: './Content/sw.js', to: path.join(__dirname, 'wwwroot')  },
+            ])
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
         ])
