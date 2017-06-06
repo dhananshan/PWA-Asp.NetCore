@@ -7,16 +7,5 @@
 
 <div class="jumbotron">
     <p>Tech Crunch Feeds</p>
-    @foreach (var feed in Model)
-    {
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title"><a href="@feed.Link" target="_blank"> @feed.Title </a></h3>
-            </div>
-            <div class="panel-body">
-                @Html.Raw(feed.Description)
-            </div>
-        </div>
-    }
+    @Html.Partial("_RSSFeedView", Model)
 </div>

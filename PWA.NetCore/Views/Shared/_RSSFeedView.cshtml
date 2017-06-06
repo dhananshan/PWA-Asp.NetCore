@@ -1,0 +1,29 @@
+﻿@using PWA.NetCore.Model
+@model List<RSSFeed>
+
+@if (Model == null)
+{
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">Feed Info</h3>
+        </div>
+        <div class="panel-body">
+            Sorry, no feed availablle.
+        </div>
+    </div>
+}
+else
+{
+    foreach (var feed in Model)
+    {
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><a href="@feed.Link" target="_blank"> @feed.Title </a></h3>
+            </div>
+            <div class="panel-body">
+                @Html.Raw(feed.Description)
+            </div>
+        </div>
+    }
+}

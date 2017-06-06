@@ -10,7 +10,7 @@ namespace PWA.NetCore.Controllers
     public class CNNController : Controller
     {
         private readonly IRSSReaderService _rssreader;
-        const string CNN_RSS_Feed = "http://feeds.feedburner.com/TechCrunch/";// "http://rss.cnn.com/rss/edition.rss";
+        const string CNN_RSS_Feed = "http://rss.cnn.com/rss/edition.rss";
 
         public CNNController(IRSSReaderService rssreader)
         {
