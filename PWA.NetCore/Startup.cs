@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PWA.NetCore.Service;
 
 namespace PWA.NetCore
 {
@@ -29,6 +30,8 @@ namespace PWA.NetCore
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddTransient<IRSSReaderService, RSSReaderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

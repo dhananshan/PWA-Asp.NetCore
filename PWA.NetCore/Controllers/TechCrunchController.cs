@@ -7,18 +7,18 @@ using PWA.NetCore.Service;
 
 namespace PWA.NetCore.Controllers
 {
-    public class CNNController : Controller
+    public class TechCrunchController : Controller
     {
         private readonly IRSSReaderService _rssreader;
-        const string CNN_RSS_Feed = "http://feeds.feedburner.com/TechCrunch/";// "http://rss.cnn.com/rss/edition.rss";
+        const string TC_RSS_Feed = "http://feeds.feedburner.com/TechCrunch/";
 
-        public CNNController(IRSSReaderService rssreader)
+        public TechCrunchController(IRSSReaderService rssreader)
         {
             _rssreader = rssreader;
         }
         public async Task<IActionResult> Index()
         {
-            var result = await _rssreader.ReadAsync(CNN_RSS_Feed);
+            var result = await _rssreader.ReadAsync(TC_RSS_Feed);
             return View(result);
         }
     }

@@ -25,10 +25,14 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="CNN" asp-action="Index">CNN</a></li>
                     <li><a asp-area="" asp-controller="CNA" asp-action="Index">CNA</a></li>
+                    <li><a asp-area="" asp-controller="TechCrunch" asp-action="Index">Tech Crunch</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <br />
+    
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -38,21 +42,21 @@
     <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
 
     <script>
-        /*
+        
         if('serviceWorker' in navigator){
             $(document).ready(function (){
                 navigator.serviceWorker.register('sw.js').then(function(registration) {
-                // Registration was successful
+                 //Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {
-                // registration failed :(
+                 //registration failed :(
                 console.log('ServiceWorker registration failed: ', err);
                 }); 
             });
         }else{
             console.log("Service Worker Not Supported!");
         }
-    */
+    
     </script>
 
 

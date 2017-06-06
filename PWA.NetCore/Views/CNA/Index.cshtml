@@ -1,4 +1,22 @@
-﻿
+﻿@using PWA.NetCore.Model
+@model List<RSSFeed>
+
 @{
     ViewData["Title"] = "CNA";
 }
+
+<div class="jumbotron">
+    <p>Channel News Asia Feeds</p>
+@foreach (var feed in Model)
+{
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><a href="@feed.Link" target="_blank"> @feed.Title </a></h3>
+        </div>
+        <div class="panel-body">
+            @Html.Raw(feed.Description)
+        </div>
+    </div>
+}
+</div>
