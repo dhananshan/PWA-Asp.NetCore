@@ -6,12 +6,12 @@ A demo to showcase the powerful features of Progressive Web Application with ASP
 
 # Features!
 > These are some of the features can be found in the template
-  - [ASP.NET CORE](https://docs.microsoft.com/en-us/aspnet/core/aspnetcore-1.1)
-  - Service Worker
-  - Web Push Notifications
-  - Add to Home Screen (mobile)
-  - [Bootstrap](http://getbootstrap.com/)
-  - [Webpack 2](https://webpack.js.org/)
+  - [x] [ASP.NET CORE](https://docs.microsoft.com/en-us/aspnet/core/aspnetcore-1.1)
+  - [x] Service Worker
+  - [ ] Web Push Notifications
+  - [ ] Add to Home Screen (mobile)
+  - [x] [Bootstrap](http://getbootstrap.com/)
+  - [x] [Webpack 2](https://webpack.js.org/)
   
 ### Reference
 - [Using Service Workers [developer.mozilla.org]](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
