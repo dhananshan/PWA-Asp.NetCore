@@ -34,6 +34,7 @@ function retrieveFromCache(event) {
             console.log("res:", response);
 
             if (response) {
+                // check network & update content
                 return response;
             }
 
