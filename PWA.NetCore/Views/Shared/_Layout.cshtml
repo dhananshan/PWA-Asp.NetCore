@@ -45,7 +45,7 @@
         
         if('serviceWorker' in navigator){
             $(document).ready(function (){
-                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                navigator.serviceWorker.register('sw-PWA.NetCore.js?v=6').then(function(registration) {
                  //Registration was successful
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, function(err) {

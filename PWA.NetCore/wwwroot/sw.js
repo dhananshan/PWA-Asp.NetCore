@@ -1,4 +1,4 @@
-var CACHE_NAME = 'v2';
+var CACHE_NAME = 'v3';
 
 var urlsToCache = [
 '/',
@@ -8,10 +8,11 @@ var urlsToCache = [
 ];
 
 
+
 this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-         console.log('Opened cache');
+          logger('Opened cache');
       return cache.addAll(urlsToCache);
     })
   );
@@ -20,13 +21,13 @@ this.addEventListener('install', function(event) {
 
 this.addEventListener('fetch', function(event) {
 
-    console.log("Fetch init");
+    logger("Fetch init");
   event.respondWith(
    caches.match(event.request).then(function(response) {
-       console.log("Cache Matched", event.request);
+          logger("Cache Matched", event.request);
 
        if (response) {
-           console.log("Return Response");
+           logger("Return Response");
           return response;
         }
 
@@ -35,10 +36,10 @@ this.addEventListener('fetch', function(event) {
     return fetch(fetchRequest).then(
           function(response) {
 
-             console.log("Fetched Response");   
+              logger("Fetched Response");   
              // Check if we received a valid response
             if(!response || response.status !== 200 || response.type !== 'basic') {
-              console.log("Invalid Response");
+                logger("Invalid Response");
               return response;
             }
             
@@ -46,7 +47,7 @@ this.addEventListener('fetch', function(event) {
             
             caches.open(CACHE_NAME)
               .then(function(cache) {
-                console.log("Adding to Cache");
+                  logger("Adding to Cache");
                 cache.put(event.request, responseToCache);
               });
 
@@ -62,15 +63,26 @@ this.addEventListener('fetch', function(event) {
 
 
 this.addEventListener('activate', function(event) {
-  var cacheWhitelist = [CACHE_NAME];
+
+    var cacheWhitelist = [CACHE_NAME];
+
+    console.log("activate");
 
   event.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (cacheWhitelist.indexOf(key) === -1) {
-          return caches.delete(key);
+          if (cacheWhitelist.indexOf(key) === -1) {
+              console.log("OLD CACHE FOUND", key);
+            //return caches.delete(key);
         }
       }));
     })
   );
 });
+
+
+
+
+function logger(log) {
+    //console.log(log);
+}
