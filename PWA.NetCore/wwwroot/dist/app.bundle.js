@@ -72,14 +72,20 @@ var ui =
 /***/ (function(module, exports) {
 
 ﻿
-
-function hello() {
-    
-    alert("Hello");
+function processMessage(msgObj){
+    try{
+        if(msgObj.type==1){
+            $.notify(msgObj.message);
+        }
+        console.log(msgObj);
+    }catch(err)
+    {
+        console.log(err);
+    }
 }
 
 module.exports = {
-    hello: hello,
+     processMessage:  processMessage,
 };
 
 

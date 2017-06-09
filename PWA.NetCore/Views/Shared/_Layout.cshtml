@@ -43,21 +43,48 @@
 
     <script>
         
-        if('serviceWorker' in navigator){
+        if('serviceWorker' in navigator) {
             $(document).ready(function (){
                 navigator.serviceWorker.register('sw-PWA.NetCore.js?v=6').then(function(registration) {
                  //Registration was successful
+                 $.notify('ServiceWorker registered successfully!');
+               
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
                 }, function(err) {
-                 //registration failed :(
+                $.notify('ServiceWorkerregistration failed!');
                 console.log('ServiceWorker registration failed: ', err);
-                }); 
+                });
+
+                  navigator.serviceWorker.addEventListener('message', function(event){
+                    ui.processMessage(event.data);
+                    event.ports[0].postMessage("Client 1 Says 'Hello back!'");
+                });
+
             });
+
+            function send_message_to_sw(msg){
+                navigator.serviceWorker.controller.postMessage(msg);
+            }
+
         }else{
+             $.notify("Service Worker Not Supported!");
             console.log("Service Worker Not Supported!");
         }
-    
-    </script>
+
+
+ window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
+
+ function updateOnlineStatus(event) {
+    var condition = navigator.onLine ? "Live" : "Currently offline";
+    $.notify(condition);
+  }
+
+
+
+</script>
 
 
 </body>

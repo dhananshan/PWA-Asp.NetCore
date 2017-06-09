@@ -31,7 +31,8 @@ module.exports = (env) => {
             vendor: [
                 'jquery',
                 'bootstrap/dist/js/bootstrap',
-                'bootstrap/dist/css/bootstrap.css'
+                'bootstrap/dist/css/bootstrap.css',
+                'bootstrap-notify'
             ]
         },
 

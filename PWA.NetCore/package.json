@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "jquery": "^3.2.1",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "bootstrap-notify": "*"
   },
   "devDependencies": {
     "extract-text-webpack-plugin": "2.1.0",
