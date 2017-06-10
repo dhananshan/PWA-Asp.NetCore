@@ -2,3 +2,159 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<div class="jumbotron">
+    <p>Demo</p>
+    <a id="btnPush" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+
+    <div id="subscriptionContext"> </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    'use strict';
+
+    const applicationServerPublicKey  = 'BGARDFzAbeYjcJIAL-0I5dj9B19W5ge6EGrB9rTFTCYBxvYv52r5j709jLnjKHPvFFsD9AVNAYI8oMR1Fu75SBo';
+    let isSubscribed = false;
+    let swRegistration = null;
+
+
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+
+
+    $(document).ready(function () {
+
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            (function () {
+                navigator.serviceWorker.register('sw-PWA.NetCore.js?v=6').then(function (registration) {
+                    //Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    notify("ServiceWorker registration successful");
+
+                    swRegistration = registration;
+                    initialiseUI();
+                }, function (err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                    notify("ServiceWorker registration failed");
+                });
+
+                // Subscribe to receive message from service worker 
+
+            })();
+        } else {
+            notify("Service Worker Not Supported!");
+            console.log("Service Worker Not Supported!");
+        }
+
+     });
+
+
+
+    function initialiseUI() {
+
+        // Set the initial subscription value
+        swRegistration.pushManager.getSubscription()
+            .then(function (subscription) {
+                isSubscribed = !(subscription === null);
+
+                if (isSubscribed) {
+                    console.log('User IS subscribed.');
+                } else {
+                    console.log('User is NOT subscribed.');
+                }
+
+                updateBtn();
+            });
+
+        $("#btnPush").click(function () {
+            $("#btnPush").prop("disabled", true);
+
+            if (isSubscribed) {
+                // TODO: Unsubscribe user
+            } else {
+                subscribeUser();
+            }
+
+        });
+    }
+
+
+    function updateBtn() {
+
+        if (Notification.permission === 'denied') {
+            $("#btnPush").text('Push Messaging Blocked.');
+            $("#btnPush").prop("disabled", true);
+            updateSubscriptionOnServer(null);
+            return;
+        }
+
+
+        if (isSubscribed) {
+            $("#btnPush").text("Disable Push Messaging");
+        } else {
+            $("#btnPush").text("Enable Push Messaging");
+        }
+
+        $("#btnPush").prop("disabled", false);
+    }
+
+
+
+    function subscribeUser() {
+        const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+        swRegistration.pushManager.subscribe({
+            //an admission that you will show a notification every time a push is sent
+            userVisibleOnly: true,
+            applicationServerKey: applicationServerKey
+        })
+            .then(function (subscription) {
+                console.log('User is subscribed.');
+
+                updateSubscriptionOnServer(subscription);
+
+                isSubscribed = true;
+
+                updateBtn();
+            })
+            .catch(function (err) {
+                console.log('Failed to subscribe the user: ', err);
+                updateBtn();
+            });
+    }
+
+
+    function updateSubscriptionOnServer(subscription) {
+        // TODO: Send subscription to application server
+
+        if (subscription) {
+            console.log(JSON.stringify(subscription));
+            $("#subscriptionContext").text(JSON.stringify(subscription));
+        }
+    }
+
+</script>
+
+
+
+
+

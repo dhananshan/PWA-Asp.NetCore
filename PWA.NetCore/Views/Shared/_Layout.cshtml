@@ -7,6 +7,10 @@
     <title>@ViewData["Title"] - PWA.NetCore</title>
 
     <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
+
+    <script src="~/dist/vendor.bundle.js" asp-append-version="true"> </script>
+    <script src="~/dist/app.bundle.js" asp-append-version="true"> </script>
+
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -32,57 +36,62 @@
     </nav>
 
     <br />
-    
+
     <div class="container body-content">
         @RenderBody()
         <hr />
     </div>
-   
-    <script src="~/dist/vendor.bundle.js" asp-append-version="true"></script>
-    <script src="~/dist/app.bundle.js" asp-append-version="true"></script>
 
     <script>
         
-        if('serviceWorker' in navigator) {
-            $(document).ready(function (){
-                navigator.serviceWorker.register('sw-PWA.NetCore.js?v=6').then(function(registration) {
-                 //Registration was successful
-                 $.notify('ServiceWorker registered successfully!');
-               
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
-                }, function(err) {
-                $.notify('ServiceWorkerregistration failed!');
-                console.log('ServiceWorker registration failed: ', err);
-                });
+navigator.serviceWorker.addEventListener('message', function (event) {
+    reply = processMessage(event.data);
+    event.ports[0].postMessage(reply);
+});
 
-                  navigator.serviceWorker.addEventListener('message', function(event){
-                    ui.processMessage(event.data);
-                    event.ports[0].postMessage("Client 1 Says 'Hello back!'");
-                });
+// Send message to service worker
+function send_message_to_sw(msg) {
+    navigator.serviceWorker.controller.postMessage(msg);
+}
 
-            });
-
-            function send_message_to_sw(msg){
-                navigator.serviceWorker.controller.postMessage(msg);
-            }
-
-        }else{
-             $.notify("Service Worker Not Supported!");
-            console.log("Service Worker Not Supported!");
-        }
-
-
+// Show online/offline status
  window.addEventListener('online',  updateOnlineStatus);
-  window.addEventListener('offline', updateOnlineStatus);
-
+ window.addEventListener('offline', updateOnlineStatus);
 
  function updateOnlineStatus(event) {
     var condition = navigator.onLine ? "Live" : "Currently offline";
-    $.notify(condition);
+        notify(condition);
   }
 
+// Notification
+function notify(msg) {
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notification");
+            }else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification(msg);
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission(function (permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification(msg);
+                    }
+                });
+            }
+        }
 
+function processMessage(msgObj) {
+    try {
+        if (msgObj.type == 1) {
+            notify(msgObj.message);
+            return "received";
+        }
+        console.log(msgObj);
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 </script>
 

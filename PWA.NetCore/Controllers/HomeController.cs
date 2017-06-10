@@ -13,6 +13,10 @@ namespace PWA.NetCore.Controllers
             return View();
         }
 
+        public IActionResult Fallback()
+        {
+            return View();
+        }
         public IActionResult Error()
         {
             return View();

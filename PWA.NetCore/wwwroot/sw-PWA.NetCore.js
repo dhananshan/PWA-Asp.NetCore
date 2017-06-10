@@ -2,13 +2,14 @@ var CACHE_NAME = 'v6';
 var resTrack = new Map();
 
 var urlsToCache = [
-'/',
+    '/',
+    '/Home/Fallback',
 '/dist/app.bundle.js',
 '/dist/vendor.bundle.js',
 '/dist/vendor.css'
 ];
 
-
+// Install
 this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
@@ -17,12 +18,13 @@ this.addEventListener('install', function(event) {
   );
 });
 
-
+// Fetch
 this.addEventListener('fetch', function (event) {
     event.respondWith(retrieveFromCache(event));
 });
 
 
+// Catch first strategy
 function retrieveFromCache(event) {
 
     return caches.open(CACHE_NAME).then(function (cache) {
@@ -47,13 +49,16 @@ function retrieveFromCache(event) {
             });
         }else{
             sendNotification("You are offline, you will be redirected to home page.");
-            //setTimeout(function(){ return caches.match(self.location.origin); }, 3000);
-            return caches.match(self.location.origin); 
+            fallback = self.location.origin + '/Home/Fallback';
+            return caches.match(fallback); 
+
         }
      })
   })
 }
 
+
+// Activate
 this.addEventListener('activate', function(event) {
 
     var cacheWhitelist = [CACHE_NAME];
@@ -71,10 +76,11 @@ this.addEventListener('activate', function(event) {
 
 
 this.addEventListener('message', function(event){
-   processMsg(event.data);
+    processMessage(event.data);
 });
 
 
+// Send to client
 function send_message_to_client(client, msg){
     return new Promise(function(resolve, reject){
         var msg_chan = new MessageChannel();
@@ -90,7 +96,7 @@ function send_message_to_client(client, msg){
 }
 
 
-
+// Send to all clients
 function send_message_to_all_clients(msg){
     clients.matchAll().then(clients => {
         clients.forEach(client => {
@@ -99,9 +105,9 @@ function send_message_to_all_clients(msg){
     })
 }
 
+
 function processMessage(msgObj){
 
- console.log(msgObj);
     try{
         if(msgObj.type==1){
            console.log(msgObj.message);
@@ -112,8 +118,25 @@ function processMessage(msgObj){
     }
 }
 
-
+// Send notification to UI
 function sendNotification(msg){
     var msgObg ={"type":1,"message":msg}
     send_message_to_all_clients(msgObg);
 }
+
+
+
+
+self.addEventListener('push', function (event) {
+    console.log('[Service Worker] Push Received.');
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+
+    const title = 'Push Codelab';
+    const options = {
+        body: 'Yay it works.',
+        icon: 'images/icon.png',
+        badge: 'images/badge.png'
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
