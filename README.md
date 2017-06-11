@@ -9,7 +9,7 @@ A demo to showcase the powerful features of Progressive Web Application with ASP
   - [x] [ASP.NET CORE](https://docs.microsoft.com/en-us/aspnet/core/aspnetcore-1.1)
   - [x] Service Worker
   - [x] Web Push Notifications
-  - [ ] Add to Home Screen (mobile)
+  - [x] Add to Home Screen (mobile)
   - [x] [Bootstrap](http://getbootstrap.com/)
   - [x] [Webpack 2](https://webpack.js.org/)
 
