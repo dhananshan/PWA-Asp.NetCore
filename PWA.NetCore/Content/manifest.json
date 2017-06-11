@@ -1,0 +1,12 @@
+﻿{
+  "short_name": "PWA.NetCore",
+  "name": "PWA.NetCore",
+  "icons": [
+    {
+      "src": "img/sample-logo.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
+  ],
+  "start_url": "/"
+}

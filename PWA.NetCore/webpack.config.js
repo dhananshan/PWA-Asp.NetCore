@@ -47,7 +47,8 @@ module.exports = (env) => {
                 jQuery: "jquery"
             }),
             new CopyWebpackPlugin([
-            { from: './Content/sw-PWA.NetCore.js', to: path.join(__dirname, 'wwwroot')  },
+                { from: './Content/sw-PWA.NetCore.js', to: path.join(__dirname, 'wwwroot') },
+                { from: './Content/manifest.json', to: path.join(__dirname, 'wwwroot') },
             ])
         ].concat(isDevBuild ? [] : [
             new webpack.optimize.UglifyJsPlugin()
