@@ -12,7 +12,10 @@ A demo to showcase the powerful features of Progressive Web Application with ASP
   - [ ] Add to Home Screen (mobile)
   - [x] [Bootstrap](http://getbootstrap.com/)
   - [x] [Webpack 2](https://webpack.js.org/)
-  
+
+# Note
+> For the time being add [webpush.netcore](https://github.com/dhananshan/web-push-csharp.netcore) to project reference
+
 ### Reference
 - [Using Service Workers [developer.mozilla.org]](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
 - [Service Workers: an Introduction [developers.google.com]](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)
