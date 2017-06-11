@@ -9,6 +9,11 @@ var urlsToCache = [
 '/dist/vendor.css'
 ];
 
+
+var ignoreRequests = new RegExp('(' + [
+    '/Home/TriggerPush'].join('(\/?)|\\') + ')$')
+
+
 // Install
 this.addEventListener('install', function(event) {
   event.waitUntil(
@@ -20,6 +25,14 @@ this.addEventListener('install', function(event) {
 
 // Fetch
 this.addEventListener('fetch', function (event) {
+
+    if (ignoreRequests.test(event.request.url)) {
+        console.log('ignored: ', event.request.url)
+        // request will be networked
+        return
+    }
+
+
     event.respondWith(retrieveFromCache(event));
 });
 
@@ -133,9 +146,7 @@ self.addEventListener('push', function (event) {
 
     const title = 'Push Codelab';
     const options = {
-        body: 'Yay it works.',
-        icon: 'images/icon.png',
-        badge: 'images/badge.png'
+        body: event.data.text()
     };
 
     event.waitUntil(self.registration.showNotification(title, options));

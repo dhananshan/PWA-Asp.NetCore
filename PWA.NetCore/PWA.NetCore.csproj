@@ -23,4 +23,7 @@
   <ItemGroup>
     <Folder Include="Content\css\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\web-push-charp\WebPush.NetCore\WebPush.NetCore.csproj" />
+  </ItemGroup>
 </Project>

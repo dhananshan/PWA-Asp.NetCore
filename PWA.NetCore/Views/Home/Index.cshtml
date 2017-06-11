@@ -5,7 +5,9 @@
 
 <div class="jumbotron">
     <p>Demo</p>
-    <a id="btnPush" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    <a id="btnPush" class="btn btn-primary btn-lg" href="#" role="button"></a>
+
+    <a id="btnSendPush" class="btn btn-danger btn-lg" href="#" role="button">Test Push Notification</a>
 
     <div id="subscriptionContext"> </div>
 </div>
@@ -58,7 +60,7 @@
                     notify("ServiceWorker registration failed");
                 });
 
-                // Subscribe to receive message from service worker 
+                // Subscribe to receive message from service worker
 
             })();
         } else {
@@ -96,6 +98,17 @@
             }
 
         });
+
+
+
+        $("#btnSendPush").click(function () {
+
+            if (isSubscribed) {
+                var url = '@Url.Action("TriggerPush", "Home")'
+                $.post(url,null, function (data, status) { });
+            }
+
+        });
     }
 
 
@@ -104,6 +117,7 @@
         if (Notification.permission === 'denied') {
             $("#btnPush").text('Push Messaging Blocked.');
             $("#btnPush").prop("disabled", true);
+            $("#btnSendPush").prop("disabled", true);
             updateSubscriptionOnServer(null);
             return;
         }
@@ -111,10 +125,12 @@
 
         if (isSubscribed) {
             $("#btnPush").text("Disable Push Messaging");
+            $("#btnSendPush").prop("disabled", false);
         } else {
             $("#btnPush").text("Enable Push Messaging");
+            $("#btnSendPush").prop("disabled", true);
         }
-
+      
         $("#btnPush").prop("disabled", false);
     }
 
@@ -145,12 +161,30 @@
 
     function updateSubscriptionOnServer(subscription) {
         // TODO: Send subscription to application server
-
         if (subscription) {
+            var url = '@Url.Action("AddSubscription", "Home")'
+
+            var subscription = JSON.parse(JSON.stringify(subscription));
+
+            console.log(subscription);
+
+            var subObj = { "endpoint": subscription.endpoint, "p256dh": subscription.keys.p256dh, "auth": subscription.keys.auth }
+
+            console.log(subObj);
+
+            try {
+                $.post(url, subObj, function (data, status) { });
+            } catch (err) {
+                console.log(err);
+            }
+
             console.log(JSON.stringify(subscription));
             $("#subscriptionContext").text(JSON.stringify(subscription));
         }
     }
+
+
+
 
 </script>
 
