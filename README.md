@@ -1,5 +1,5 @@
 # PWA-Asp.NetCore
-A demo to showcase the powerful features of Progressive Web Application with ASP.Net Core 1.1. This demo uses RSS Reader as an idea to intrgrate PWA.   
+A demo to showcase the powerful features of Progressive Web Application with ASP.Net Core 2.0. This demo uses RSS Reader as an idea to intrgrate PWA.   
 
 ## What is Progressive Web Application
 > Progressive Web Apps are experiences that combine the best of the web and the best of apps. They are useful to users from the very first visit in a browser tab, no install required. As the user progressively builds a relationship with the app over time, it becomes more and more powerful. It loads quickly, even on flaky networks, sends relevant push notifications, has an icon on the home screen, and loads as a top-level, full screen experience. - [Pete LePage](https://developers.google.com/web/fundamentals/getting-started/codelabs/your-first-pwapp/)
