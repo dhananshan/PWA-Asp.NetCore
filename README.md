@@ -1,4 +1,4 @@
-# PWA-Asp.NetCore
+# PWA Asp.NetCore
 A demo to showcase the powerful features of Progressive Web Application with ASP.Net Core 2.0. This demo uses RSS Reader as an idea to intrgrate PWA.   
 
 ## What is Progressive Web Application
